@@ -13,7 +13,7 @@ async def review_code(review_request: ReviewRequest):
     openai_api_key = Config.OPENAI_API_KEY
 
     if not github_token:
-        raise HTTPException(status_code=500, detail="GitHub token not configured.")
+        raise HTTPException(status_code=500, detail="GitHub token not configured.")     #TODO add other errors
 
     repo_data = await fetch_github_repo(review_request.github_repo_url, github_token)
 
@@ -26,5 +26,4 @@ async def review_code(review_request: ReviewRequest):
     return {
         "found_files": file_list,
         "downsides_comments": gpt_response,
-        "rating": "To be implemented based on analysis"
     }
