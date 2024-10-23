@@ -1,14 +1,16 @@
 from fastapi import APIRouter, HTTPException
-from models import ReviewRequest
-from services import fetch_github_repo, analyze_code_with_openai
-import os
+
+from app.config import Config
+from app.models import ReviewRequest
+from app.services import fetch_github_repo, analyze_code_with_openai
 
 router = APIRouter()
 
 
 @router.post("/review")
 async def review_code(review_request: ReviewRequest):
-    github_token = os.getenv("GITHUB_TOKEN")
+    github_token = Config.GITHUB_TOKEN
+    openai_api_key = Config.OPENAI_API_KEY
 
     if not github_token:
         raise HTTPException(status_code=500, detail="GitHub token not configured.")
@@ -19,7 +21,7 @@ async def review_code(review_request: ReviewRequest):
     prompt = (f"Analyze the following files for a {review_request.candidate_level} "
               f"candidate: {file_list}. Describe code quality, potential issues, and improvements.")
 
-    gpt_response = await analyze_code_with_openai(prompt)
+    gpt_response = await analyze_code_with_openai(prompt, openai_api_key)
 
     return {
         "found_files": file_list,

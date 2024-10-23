@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:latest  # Использует последний образ Redis
+    container_name: redis_instance  # Название контейнера
+    ports:
+      - "6379:6379"  # Пробрасывание порта
+    volumes:
+      - redis_data:/data  # Персистентное хранилище для данных Redis
+
+volumes:
+  redis_data:
+    driver: local  # Использует локальный драйвер для хранения данных
