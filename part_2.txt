@@ -1,0 +1,9 @@
+The main thing we should increasing the number of containers and using Kubernetes for orchestration
+It's also possible to use Celery for asynchronous distribution of the task order
+
+In the test task, I already used Redis to cache repository data, which will speed up re-requests and reduce the load
+
+To save costs, we can limiting the use of expensive models, only for key parts of the code. Distribute requests to less
+resource-intensive models for fast reviews
+
+And I think it's also right to think about cloud services
